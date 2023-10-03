@@ -32,4 +32,10 @@ public class StudentController {
         return this.studentService.deleteStudent(id);
     }
 
+    @PutMapping("{id}")
+    public void updateStudent(@PathVariable Long id,
+                              @RequestParam String name,
+                              @RequestParam String email) {
+        this.studentService.updateStudent(id, name, email);
+    }
 }

@@ -1,5 +1,6 @@
 package com.spring.studentapi.student;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,5 +35,13 @@ public class StudentService {
 
         studentRepository.delete(student);
         return student;
+    }
+
+    @Transactional
+    public void updateStudent(Long id, String name, String email) {
+        Student student = studentRepository.findById(id).orElseThrow(IllegalStateException::new);
+
+        if(name != null && !name.isEmpty()) student.setName(name);
+        if(email != null && !email.isEmpty()) student.setEmail(email);
     }
 }
