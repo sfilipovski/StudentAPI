@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.UUID;
 
 @Entity
 @Table
@@ -19,75 +20,39 @@ public class Student {
             strategy = GenerationType.TABLE,
             generator = "student_sequence"
     )
-    private Long id;
-    private String name;
-    private LocalDate dob;
-    @Transient
-    private Integer age;
+    private UUID id;
+    private String firstName;
+    private String lastName;
+    private Gender gender;
     private String email;
 
     public Student(){}
 
-    public Student(Long id, String name, LocalDate dob, String email) {
+    public Student(UUID id, String firstName, String lastName, Gender gender, String email) {
         this.id = id;
-        this.name = name;
-        this.dob = dob;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
         this.email = email;
     }
 
-    public Student(String name, LocalDate dob, String email) {
-        this.name = name;
-        this.dob = dob;
-        this.email = email;
-    }
-
-    public Integer getAge() {
-        return Period.between(this.dob, LocalDate.now()).getYears();
-    }
-
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getName() {
-        return name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public LocalDate getDob() {
-        return dob;
-    }
-
-    public void setDob(LocalDate dob) {
-        this.dob = dob;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
+    public Gender getGender() {
+        return gender;
     }
 
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", dob=" + dob +
-                ", email='" + email + '\'' +
-                '}';
     }
 }

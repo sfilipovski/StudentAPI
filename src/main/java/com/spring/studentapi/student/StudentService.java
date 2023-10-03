@@ -7,41 +7,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class StudentService {
 
-    private final StudentRepository studentRepository;
-
-    @Autowired
-    public StudentService(StudentRepository studentRepository) {
-        this.studentRepository = studentRepository;
-    }
-
     public List<Student> getAllStudents() {
-        return studentRepository.findAll();
+        return List.of(new Student(
+                UUID.randomUUID(),
+                "Josh",
+                "Kroenke",
+                Gender.MALE,
+                "josh@example.com"
+        ),
+        new Student(
+                UUID.randomUUID(),
+                "Selma",
+                "Hayek",
+                Gender.FEMALE,
+                "shayek@example.com"
+        ));
     }
 
-    public Student saveStudent(Student student) {
-        if(studentRepository.findStudentByEmail(student.getEmail()).isPresent())
-            throw new IllegalStateException("Email is already taken");
 
-        return this.studentRepository.save(student);
-    }
 
-    public Student deleteStudent(Long id) {
-        Student student = studentRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException("Student with id:"+id+" doesn't exist"));
-
-        studentRepository.delete(student);
-        return student;
-    }
-
-    @Transactional
-    public void updateStudent(Long id, String name, String email) {
-        Student student = studentRepository.findById(id).orElseThrow(IllegalStateException::new);
-
-        if(name != null && !name.isEmpty()) student.setName(name);
-        if(email != null && !email.isEmpty()) student.setEmail(email);
-    }
 }
